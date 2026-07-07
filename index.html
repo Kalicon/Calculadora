@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimensionamento e Escalas SES-SP</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Cabeçalho Principal -->
+        <header class="app-header">
+            <div class="header-logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div class="logo-text">
+                    <h1>Leonor Mendes de Barros</h1>
+                    <span class="badge">UGA IV - SES-SP</span>
+                </div>
+            </div>
+            <div class="header-info" style="text-align: right;">
+                <span class="system-time">Local: Julho 2026</span><br>
+                <span style="font-size: 11px; color: var(--text-muted);">Desenvolvido por Kalicon Amorim</span>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <!-- Barra Lateral de Navegação (Tabs) -->
+            <aside class="sidebar">
+                <nav class="nav-menu">
+                    <button class="nav-btn active" data-tab="jornada-reduzida">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <span>Escala de Plantão (Padrão/Reduzida)</span>
+                    </button>
+                    <button class="nav-btn" data-tab="dimensionamento-cofen">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span>Dimensionamento COFEN</span>
+                    </button>
+                    <button class="nav-btn" data-tab="limites-ses">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>Limites de Plantão SES-SP</span>
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Área de Conteúdo Principal -->
+            <main class="content-area">
+                
+                <!-- TAB 1: GESTÃO DE JORNADA REDUZIDA -->
+                <section id="jornada-reduzida" class="tab-content active">
+                    <div class="section-header">
+                        <h2>Gestão de Escala de Plantão (Jornada Padrão & Reduzida)</h2>
+                        <p>Hospital Maternidade Leonor Mendes de Barros - UGA IV. Planejamento de escalas mensais com compensação automática de banco de horas (alternando meses de piso/teto), aplicável a colaboradores padrão e com jornada reduzida (ex: TEA).</p>
+                    </div>
+
+                    <div class="grid-container">
+                        <!-- Formulário de Entrada -->
+                        <div class="card card-input">
+                            <h3 class="card-title">Parâmetros da Escala</h3>
+                            <form id="form-jornada-reduzida" class="form-grid">
+                                <div class="form-group" style="flex-direction: row; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                    <input type="checkbox" id="jornada-padrao-check" style="width: 18px; height: 18px; cursor: pointer;">
+                                    <label for="jornada-padrao-check" style="cursor: pointer; color: var(--text-primary); font-weight: 600; font-size: 14px;">Escala de Jornada Padrão (Sem Redução)</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="semanal-original">Carga Semanal Original (h)</label>
+                                    <input type="number" id="semanal-original" min="10" max="60" value="30" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="plantao-base">Duração Base do Plantão (h)</label>
+                                    <input type="number" id="plantao-base" min="4" max="24" value="12" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="percentual-reducao">Percentual de Redução (%)</label>
+                                    <input type="number" id="percentual-reducao" min="0" max="100" value="20" required>
+                                    <span class="input-helper">Ex: 20% para responsáveis por portadores de TEA</span>
+                                </div>
+                                <div class="form-row-2">
+                                    <div class="form-group">
+                                        <label for="mes-inicio">Mês de Início</label>
+                                        <select id="mes-inicio">
+                                            <option value="1">Janeiro</option>
+                                            <option value="2">Fevereiro</option>
+                                            <option value="3">Março</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Maio</option>
+                                            <option value="6">Junho</option>
+                                            <option value="7" selected>Julho</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Setembro</option>
+                                            <option value="10">Outubro</option>
+                                            <option value="11">Novembro</option>
+                                            <option value="12">Dezembro</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ano-inicio">Ano de Início</label>
+                                        <input type="number" id="ano-inicio" min="2020" max="2050" value="2026" required>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Painel de Metas Calculadas -->
+                        <div class="card card-results-summary">
+                            <h3 class="card-title">Metas e Valores Efetivos</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-box">
+                                    <span class="metric-label">Carga Semanal Reduzida</span>
+                                    <span class="metric-value" id="res-semanal-reduzida">24h 00m</span>
+                                </div>
+                                <div class="metric-box">
+                                    <span class="metric-label">Jornada Mensal Alvo</span>
+                                    <span class="metric-value" id="res-mensal-alvo">103h 12m</span>
+                                    <span class="metric-desc">(Carga semanal × 4.3)</span>
+                                </div>
+                                <div class="metric-box highlighted">
+                                    <span class="metric-label">Tempo Efetivo do Plantão</span>
+                                    <span class="metric-value" id="res-plantao-reduzido">09h 36m</span>
+                                    <span class="metric-desc">(Base - Redução)</span>
+                                </div>
+                                <div class="metric-box">
+                                    <span class="metric-label">Média Ideal de Plantões</span>
+                                    <span class="metric-value" id="res-media-plantoes">10.75 / mês</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Escala Semestral Gerada -->
+                    <div class="card card-table">
+                        <div class="card-table-header">
+                            <h3 class="card-title">Cronograma de Escala Semestral Compensada</h3>
+                            <span class="badge badge-success">Banco de Horas Autocompensado</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table" id="tabela-escala">
+                                <thead>
+                                    <tr>
+                                        <th>Mês/Ano</th>
+                                        <th>Nº de Plantões</th>
+                                        <th>Jornada Alvo</th>
+                                        <th>Jornada Realizada</th>
+                                        <th>Saldo do Mês</th>
+                                        <th>Saldo Acumulado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Conteúdo preenchido dinamicamente via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: DIMENSIONAMENTO DE EQUIPE COFEN -->
+                <section id="dimensionamento-cofen" class="tab-content">
+                    <div class="section-header">
+                        <h2>Calculadora de Dimensionamento de Enfermagem (COFEN 743/2024)</h2>
+                        <p>Parâmetros atualizados baseados no Parecer Normativo nº 1/2024/COFEN e na Resolução COFEN nº 743/2024. Calcula o tamanho mínimo da equipe de enfermagem de acordo com o perfil de dependência dos pacientes.</p>
+                    </div>
+
+                    <div class="grid-container">
+                        <!-- Pacientes e Dependência -->
+                        <div class="card card-input">
+                            <h3 class="card-title">Número de Pacientes por Tipo de Cuidado</h3>
+                            <form id="form-cofen" class="form-grid">
+                                <div class="form-group">
+                                    <label for="cuidado-minimo">Cuidado Mínimo (4h/dia)</label>
+                                    <input type="number" id="cuidado-minimo" min="0" value="10">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cuidado-intermediario">Cuidado Intermediário (6h/dia)</label>
+                                    <input type="number" id="cuidado-intermediario" min="0" value="5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cuidado-alta-dep">Alta Dependência (10h/dia)</label>
+                                    <input type="number" id="cuidado-alta-dep" min="0" value="3">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cuidado-semi-intensivo">Cuidado Semi-Intensivo (10h/dia)</label>
+                                    <input type="number" id="cuidado-semi-intensivo" min="0" value="2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cuidado-intensivo">Cuidado Intensivo (18h/dia)</label>
+                                    <input type="number" id="cuidado-intensivo" min="0" value="2">
+                                </div>
+                                
+                                <h3 class="card-title" style="grid-column: 1 / -1; margin-top: 15px;">Parâmetros da Equipe</h3>
+                                
+                                <div class="form-row-2" style="grid-column: 1 / -1;">
+                                    <div class="form-group">
+                                        <label for="cofen-jornada">Jornada Semanal (h)</label>
+                                        <select id="cofen-jornada">
+                                            <option value="20">20 horas</option>
+                                            <option value="30" selected>30 horas</option>
+                                            <option value="36">36 horas</option>
+                                            <option value="40">40 horas</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cofen-ist">Índice de Segurança Técnica (IST %)</label>
+                                        <input type="number" id="cofen-ist" min="15" max="50" value="15">
+                                        <span class="input-helper">Recomendado mínimo de 15%</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Resultados do Dimensionamento -->
+                        <div class="card card-results-summary">
+                            <h3 class="card-title">Resultado do Dimensionamento</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-box">
+                                    <span class="metric-label">Horas de Assistência Diária (THE)</span>
+                                    <span class="metric-value text-teal" id="res-the">156.0 h</span>
+                                    <span class="metric-desc">Necessidade de cuidado nas 24h</span>
+                                </div>
+                                <div class="metric-box">
+                                    <span class="metric-label">Constante de Dimensionamento (KM)</span>
+                                    <span class="metric-value" id="res-km">0.2683</span>
+                                    <span class="metric-desc">Fator de escala semanal</span>
+                                </div>
+                                <div class="metric-box highlighted">
+                                    <span class="metric-label">Quadro de Profissionais Mínimo (QP)</span>
+                                    <span class="metric-value" id="res-qp">42 Profissionais</span>
+                                    <span class="metric-desc" id="res-qp-detalhado">Exato: 41.85 (já acrescido o IST)</span>
+                                </div>
+                            </div>
+
+                            <!-- Distribuição e Composição da Equipe -->
+                            <div class="staff-distribution" style="margin-top: 20px;">
+                                <h4 class="distribution-title">Distribuição Sugerida Enfermeiro vs. Técnico</h4>
+                                <div class="bar-chart-container">
+                                    <div class="bar-chart-labels">
+                                        <span id="label-enfermeiros">Enfermeiros (40%): 17</span>
+                                        <span id="label-tecnicos">Técnicos/Aux. (60%): 25</span>
+                                    </div>
+                                    <div class="bar-chart-track">
+                                        <div class="bar-fill nurse-fill" id="bar-nurse" style="width: 40%;"></div>
+                                        <div class="bar-fill tech-fill" id="bar-tech" style="width: 60%;"></div>
+                                    </div>
+                                    <span class="metric-desc" style="display: block; margin-top: 8px;">Calculado proporcionalmente baseado nos perfis de cuidado inseridos.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: LIMITES DE PLANTÃO SES-SP -->
+                <section id="limites-ses" class="tab-content">
+                    <div class="section-header">
+                        <h2>Validador de Limites de Plantão (LC 1176/2012 - SES-SP)</h2>
+                        <p>Analisa a conformidade legal para servidores médicos e cirurgiões-dentistas vinculados à Secretaria de Saúde de SP que realizam plantões sob o regime da Lei Complementar nº 1.176/2012.</p>
+                    </div>
+
+                    <div class="grid-container">
+                        <!-- Formulário Vínculos -->
+                        <div class="card card-input">
+                            <h3 class="card-title">Vínculos e Carga Horária do Servidor</h3>
+                            <form id="form-limites-ses" class="form-grid">
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label>Quantidade de Vínculos no Estado</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="quant-vinculos" value="1" checked>
+                                            <span>1 Vínculo</span>
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="quant-vinculos" value="2">
+                                            <span>2 Vínculos</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Bloco Vínculo 1 -->
+                                <div class="form-group" id="group-vinculo-1" style="grid-column: 1 / -1;">
+                                    <label for="jornada-vinculo-1">Carga Horária Semanal do Vínculo 1</label>
+                                    <select id="jornada-vinculo-1">
+                                        <option value="12">12 horas semanais</option>
+                                        <option value="20" selected>20 horas semanais</option>
+                                        <option value="24">24 horas semanais</option>
+                                        <option value="30">30 horas semanais</option>
+                                        <option value="40">40 horas semanais</option>
+                                    </select>
+                                </div>
+
+                                <!-- Bloco Vínculo 2 (Oculto por padrão) -->
+                                <div class="form-group" id="group-vinculo-2" style="grid-column: 1 / -1; display: none;">
+                                    <label for="jornada-vinculo-2">Carga Horária Semanal do Vínculo 2</label>
+                                    <select id="jornada-vinculo-2">
+                                        <option value="12">12 horas semanais</option>
+                                        <option value="20" selected>20 horas semanais</option>
+                                        <option value="24">24 horas semanais</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group" style="grid-column: 1 / -1; margin-top: 10px;">
+                                    <label for="plantoes-desejados">Plantões Planejados p/ Mês (12h)</label>
+                                    <input type="number" id="plantoes-desejados" min="0" max="30" value="8">
+                                    <span class="input-helper">Quantos plantões de 12h o profissional deseja realizar além de sua jornada normal.</span>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Resultados dos Limites Legais -->
+                        <div class="card card-results-summary" id="resultado-ses-card">
+                            <h3 class="card-title">Status de Conformidade Legal</h3>
+                            
+                            <div class="compliance-badge badge-ok" id="status-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                <span id="status-texto">Escala em Conformidade</span>
+                            </div>
+
+                            <div class="metrics-grid" style="margin-top: 20px;">
+                                <div class="metric-box">
+                                    <span class="metric-label">Limite Mensal de Plantões</span>
+                                    <span class="metric-value text-teal" id="res-limite-mensal">12 Plantões</span>
+                                    <span class="metric-desc">(Equivale a 144 horas mensais)</span>
+                                </div>
+                                <div class="metric-box">
+                                    <span class="metric-label">Plantões Planejados</span>
+                                    <span class="metric-value" id="res-plantoes-planejados">8 Plantões</span>
+                                    <span class="metric-desc" id="res-plantoes-horas">(96 horas programadas)</span>
+                                </div>
+                            </div>
+
+                            <div class="legal-citation" id="legal-citation-text" style="margin-top: 20px; padding: 15px; border-radius: 8px; font-size: 13px; line-height: 1.5;">
+                                <!-- Preenchido por JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="app-footer">
+            <p>Hospital Maternidade Leonor Mendes de Barros - UGA IV | Coordenadoria de Recursos Humanos</p>
+            <p>Calculadora desenvolvida por <strong>Kalicon Amorim</strong> em conformidade com as Normativas da SES-SP e COFEN.</p>
+            <p>Legislação Base: Lei Complementar Estadual nº 1.176/2012 | Resolução Federal COFEN nº 743/2024.</p>
+        </footer>
+    </div>
+
+    <!-- JS Customizado -->
+    <script src="app.js"></script>
+</body>
+</html>
