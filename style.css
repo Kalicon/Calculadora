@@ -856,3 +856,84 @@ input[type="number"]:focus, select:focus {
         font-size: 10px;
     }
 }
+
+/* Estilo do Botão de Impressão */
+.btn-print:hover {
+    background: #4f46e5 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--accent-indigo-glow);
+}
+
+/* ----------------------------------------------------
+   CONFIGURAÇÃO DE IMPRESSÃO (PDF AMIGÁVEL)
+   ---------------------------------------------------- */
+@media print {
+    /* Ocultar navegação, cabeçalhos, rodapés e controles de formulário */
+    .sidebar, 
+    .card-input, 
+    .card-results-summary,
+    .app-header, 
+    .app-footer, 
+    .btn-print, 
+    .badge,
+    .section-header p,
+    .legal-citation {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .app-container {
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+        min-height: auto;
+    }
+    
+    .main-layout {
+        display: block;
+    }
+    
+    /* Mostrar a tabela de forma limpa em preto e branco */
+    .card-table {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+    
+    .data-table {
+        color: black !important;
+        border: 1px solid #000;
+        width: 100% !important;
+    }
+    
+    .data-table th {
+        background: #f1f1f1 !important;
+        color: black !important;
+        border-bottom: 2px solid #000 !important;
+        padding: 8px !important;
+    }
+    
+    .data-table td {
+        color: black !important;
+        border-bottom: 1px solid #000 !important;
+        padding: 8px !important;
+    }
+    
+    .shift-pill {
+        background: transparent !important;
+        color: black !important;
+        border: 1px solid #000 !important;
+    }
+    
+    .badge-table {
+        background: transparent !important;
+        color: black !important;
+        border: 1px solid #000 !important;
+    }
+}

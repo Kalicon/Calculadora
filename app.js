@@ -45,6 +45,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------------------
+    // PERSISTÊNCIA DOS CAMPOS (LOCALSTORAGE)
+    // ----------------------------------------------------
+    const fieldsToPersist = [
+        'semanal-original', 'plantao-base', 'percentual-reducao', 
+        'mes-inicio', 'ano-inicio',
+        'cuidado-minimo', 'cuidado-intermediario', 'cuidado-alta-dep', 
+        'cuidado-semi-intensivo', 'cuidado-intensivo', 'cofen-jornada', 'cofen-ist',
+        'jornada-vinculo-1', 'jornada-vinculo-2', 'plantoes-desejados'
+    ];
+
+    function saveInputsToLocalStorage() {
+        fieldsToPersist.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.type === 'checkbox') {
+                    localStorage.setItem(`calc_${id}`, el.checked ? 'true' : 'false');
+                } else {
+                    localStorage.setItem(`calc_${id}`, el.value);
+                }
+            }
+        });
+        
+        // Salvar os rádios de vínculos SES-SP
+        const activeRadio = document.querySelector('input[name="quant-vinculos"]:checked');
+        if (activeRadio) {
+            localStorage.setItem('calc_quant-vinculos', activeRadio.value);
+        }
+        
+        // Salvar jornada padrão checkbox separado
+        const padraoCheck = document.getElementById('jornada-padrao-check');
+        if (padraoCheck) {
+            localStorage.setItem('calc_jornada-padrao-check', padraoCheck.checked ? 'true' : 'false');
+        }
+    }
+
+    function loadInputsFromLocalStorage() {
+        fieldsToPersist.forEach(id => {
+            const val = localStorage.getItem(`calc_${id}`);
+            const el = document.getElementById(id);
+            if (el && val !== null) {
+                if (el.type === 'checkbox') {
+                    el.checked = (val === 'true');
+                } else {
+                    el.value = val;
+                }
+            }
+        });
+
+        // Restaurar jornada padrão checkbox separado
+        const padraoCheckVal = localStorage.getItem('calc_jornada-padrao-check');
+        const padraoCheck = document.getElementById('jornada-padrao-check');
+        if (padraoCheck && padraoCheckVal !== null) {
+            padraoCheck.checked = (padraoCheckVal === 'true');
+        }
+
+        // Restaurar rádio de vínculos SES-SP
+        const radioVal = localStorage.getItem('calc_quant-vinculos');
+        if (radioVal !== null) {
+            const radio = document.querySelector(`input[name="quant-vinculos"][value="${radioVal}"]`);
+            if (radio) radio.checked = true;
+        }
+    }
+
+    // ----------------------------------------------------
     // TAB 1: JORNADA REDUZIDA (LÓGICA JAVA PORTADA)
     // ----------------------------------------------------
     const inputSemanalOriginal = document.getElementById('semanal-original');
@@ -147,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 anoAtual++;
             }
         }
+        saveInputsToLocalStorage();
     }
 
     // Eventos da Tab 1
@@ -243,6 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         document.getElementById('bar-nurse').style.width = `${nursePercent}%`;
         document.getElementById('bar-tech').style.width = `${techPercent}%`;
+        saveInputsToLocalStorage();
     }
 
     // Eventos da Tab 2
@@ -360,6 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusTexto.innerHTML = `Limite Excedido! Risco de Glosa`;
             statusBadge.querySelector('svg').innerHTML = `<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>`;
         }
+        saveInputsToLocalStorage();
     }
 
     // Eventos da Tab 3
@@ -371,6 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
     // INICIALIZAÇÃO GERAL
     // ----------------------------------------------------
+    loadInputsFromLocalStorage();
     calcularEAtualizarJornadaReduzida();
     calcularEAtualizarCofen();
     toggleVinculosDisplay();

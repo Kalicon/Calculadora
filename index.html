@@ -111,6 +111,12 @@
                                         <input type="number" id="ano-inicio" min="2020" max="2050" value="2026" required>
                                     </div>
                                 </div>
+                                <div class="form-group" style="margin-top: 10px; padding: 12px; border-radius: 8px; background: rgba(99, 102, 241, 0.08); border-left: 3px solid var(--accent-indigo); font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
+                                    <strong style="color: var(--text-primary);">Base Legal (SES-SP):</strong><br>
+                                    • Decreto Estadual nº 69.045/2024<br>
+                                    • Resolução SS 118 de 17/06/2026<br>
+                                    Reduções concedidas mediante perícia do IMESC.
+                                </div>
                             </form>
                         </div>
 
@@ -140,7 +146,13 @@
                     <div class="card card-table">
                         <div class="card-table-header">
                             <h3 class="card-title">Cronograma de Escala Semestral Compensada</h3>
-                            <span class="badge badge-success">Banco de Horas Autocompensado</span>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                <button onclick="window.print()" class="btn-print" style="background: var(--accent-indigo); border: none; color: white; padding: 6px 12px; border-radius: 6px; font-family: var(--font-sans); cursor: pointer; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: var(--transition-smooth);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                                    Imprimir Relatório
+                                </button>
+                                <span class="badge badge-success">Banco de Horas Autocompensado</span>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <table class="data-table" id="tabela-escala">
