@@ -619,7 +619,7 @@ input[type="number"]:focus, select:focus {
 }
 
 /* ----------------------------------------------------
-   RESPONSIVIDADE (MOBILE FIRST ADAPTADO)
+   RESPONSIVIDADE (DESIGN MOBILE-FIRST E NATIVO)
    ---------------------------------------------------- */
 @media (max-width: 1024px) {
     .main-layout {
@@ -628,6 +628,7 @@ input[type="number"]:focus, select:focus {
     
     .sidebar {
         position: static;
+        margin-bottom: 10px;
     }
     
     .nav-menu {
@@ -637,7 +638,7 @@ input[type="number"]:focus, select:focus {
     
     .nav-btn {
         flex: 1;
-        min-width: 200px;
+        min-width: 180px;
         justify-content: center;
     }
 }
@@ -648,20 +649,210 @@ input[type="number"]:focus, select:focus {
     }
     
     .metrics-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr; /* Manter duas colunas em tablets */
+        gap: 12px;
     }
     
     .form-row-2 {
         grid-template-columns: 1fr;
     }
     
-    .nav-btn {
-        min-width: 100%;
+    .app-header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .header-info {
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.06) 0px, transparent 35%),
+            radial-gradient(at 100% 100%, rgba(13, 148, 136, 0.05) 0px, transparent 35%);
+    }
+
+    .app-container {
+        padding: 10px;
     }
     
     .app-header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+    }
+    
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .logo-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .logo-text h1 {
+        font-size: 17px;
+    }
+    
+    /* Barra de Navegação Horizontal Sticky (Estilo Tab Bar de App) */
+    .sidebar {
+        position: sticky;
+        top: 10px;
+        z-index: 1000;
+        padding: 8px;
+        border-radius: 12px;
+        background: rgba(10, 13, 26, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 15px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    
+    .nav-menu {
+        flex-direction: row;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 6px;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+    }
+    
+    .nav-menu::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .nav-btn {
+        flex: 0 0 auto;
+        padding: 8px 12px;
+        font-size: 13px;
+        border-radius: 8px;
+        gap: 6px;
+        min-width: unset;
+        justify-content: center;
+    }
+    
+    .nav-btn span {
+        font-size: 13px;
+    }
+    
+    .content-area {
+        gap: 12px;
+    }
+    
+    .section-header {
+        padding: 4px 5px;
+    }
+    
+    .section-header h2 {
+        font-size: 19px;
+    }
+    
+    .section-header p {
+        font-size: 13px;
+    }
+    
+    .card {
+        padding: 16px;
+        border-radius: 12px;
+    }
+    
+    .card-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+    
+    /* Formulários e Inputs */
+    .form-grid {
+        gap: 12px;
+    }
+    
+    input[type="number"], select {
+        padding: 8px 12px;
+        font-size: 14px;
+        height: 42px;
+    }
+    
+    .radio-label {
+        padding: 8px 12px;
+        font-size: 13px;
+        gap: 6px;
+    }
+    
+    /* Métricas em duas colunas compactas no celular */
+    .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    
+    .metric-box {
+        padding: 10px;
+    }
+    
+    .metric-label {
+        font-size: 10px;
+        margin-bottom: 4px;
+    }
+    
+    .metric-value {
+        font-size: 18px;
+    }
+    
+    .metric-desc {
+        font-size: 9px;
+    }
+    
+    /* Tabelas responsivas compactas */
+    .data-table {
+        font-size: 11px;
+    }
+    
+    .data-table th {
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+    
+    .data-table td {
+        padding: 10px 6px;
+    }
+    
+    .shift-pill {
+        padding: 2px 4px;
+        font-size: 10px;
+        border-radius: 4px;
+    }
+    
+    .badge-table {
+        padding: 2px 4px;
+        font-size: 10px;
+        border-radius: 4px;
+    }
+    
+    .compliance-badge {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .compliance-badge svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .bar-chart-labels {
+        font-size: 11px;
+    }
+    
+    /* Rodapé Compacto */
+    .app-footer {
+        margin-top: 25px;
+        padding: 15px 5px;
+        font-size: 10px;
     }
 }
