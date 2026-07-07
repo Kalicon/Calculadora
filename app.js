@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('res-semanal-reduzida').textContent = `${formatToHHMM(cargaSemanalReduzida)}h`;
         document.getElementById('res-mensal-alvo').textContent = `${formatToHHMM(jornadaMensalAlvo)}`;
         document.getElementById('res-plantao-reduzido').textContent = `${formatToHHMM(duracaoPlantaoReduzida)}`;
-        document.getElementById('res-media-plantoes').textContent = `${idealShifts.toFixed(2)} / mês`;
 
         // Limpar tabela
         tabelaEscala.innerHTML = '';

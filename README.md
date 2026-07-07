@@ -1,76 +1,73 @@
 # Hospital Maternidade Leonor Mendes de Barros - UGA IV
-## Sistema de Gestão de Escalas e Dimensionamento (SES-SP)
+## Painel de Apoio a Escalas e Dimensionamento Hospitalar
 ### Desenvolvido por Kalicon Amorim
 
-Este repositório contém uma solução completa voltada para a gestão de escalas hospitalares e o dimensionamento de pessoal sob as normativas da Secretaria da Saúde do Estado de São Paulo (SES-SP) e Conselho Federal de Enfermagem (COFEN), personalizada para o **Hospital Maternidade Leonor Mendes de Barros (UGA IV)**.
+Este repositório contém uma ferramenta prática de **apoio e auxílio para as equipes** do **Hospital Maternidade Leonor Mendes de Barros (UGA IV)**. O objetivo principal é facilitar o planejamento de escalas e oferecer estimativas rápidas para o dia a dia, servindo como guia informativo de apoio às chefias e colaboradores.
 
 A solução é composta por duas partes:
-1. **Módulo Java**: Um serviço de backend estruturado para o cálculo de escalas com jornada reduzida e normal, com compensação de banco de horas entre meses.
-2. **Painel Web Interativo (GitHub Pages)**: Uma interface frontend rica e moderna (HTML/CSS/JS) contendo calculadoras para escalas de jornada reduzida/padrão, dimensionamento de equipes de enfermagem (Resolução COFEN 743/2024) e validação de conformidade de plantões (LC 1176/2012).
+1. **Módulo Java**: Protótipo de backend para simulação de escalas com jornada reduzida e normal, demonstrando o funcionamento de compensação de banco de horas entre meses.
+2. **Painel Web Interativo (GitHub Pages)**: Uma interface simples e amigável (HTML/CSS/JS) com simuladores de escalas, estimativa de dimensionamento de pessoal e guia de orientação sobre limites de plantões adicionais.
 
 ---
 
-## 📅 Lógica de Compensação de Horas (Escala Padrão e Reduzida)
+## 📅 Simulação de Compensação de Horas (Auxílio para Planejamento)
 
 ### O Desafio dos Plantões Fracionados
-Seja para colaboradores em jornada padrão ou com redução de jornada (ex: 20% de redução para responsáveis por pessoas com TEA), a duração do plantão e a meta mensal de horas resultam em frações de plantões devido à média mensal de 4.3 semanas.
+Para auxiliar as equipes a programar escalas onde a jornada mensal de horas e a duração dos plantões resultam em números fracionados (devido à média de 4.3 semanas/mês), a ferramenta demonstra como alternar os plantões entre meses evita o acúmulo desproporcional de banco de horas.
 
-**Exemplo 1: Colaborador com Jornada Reduzida (20%):**
+**Exemplo de auxílio para escala com redução de jornada (ex: 20%):**
 *   **Carga Semanal Original**: 30 horas.
 *   **Redução**: 20% (Carga Semanal Alvo: 24 horas).
 *   **Plantão Base**: 12 horas.
-*   **Jornada Mensal Alvo**: 24h × 4.3 semanas = **103,20 horas** (`103:12`).
-*   **Duração Efetiva do Plantão**: 12h × 0.8 = **9,60 horas** (`09:36`).
-*   **Plantões Ideais/Mês**: $103.2 / 9.6 =$ **10,75 plantões**.
+*   **Jornada Mensal Alvo**: 24h × 4.3 semanas = **103h12min**.
+*   **Duração Efetiva do Plantão**: 12h × 0.8 = **9h36min**.
+*   **Plantões Ideais/Mês**: **10,75 plantões**.
 
-**Exemplo 2: Colaborador com Jornada Padrão (Sem Redução):**
+**Exemplo de auxílio para escala padrão (Sem Redução):**
 *   **Carga Semanal Original**: 30 horas.
 *   **Redução**: 0% (Carga Semanal Alvo: 30 horas).
 *   **Plantão Base**: 12 horas.
-*   **Jornada Mensal Alvo**: 30h × 4.3 semanas = **129,00 horas** (`129:00`).
-*   **Duração Efetiva do Plantão**: **12,00 horas** (`12:00`).
-*   **Plantões Ideais/Mês**: $129 / 12 =$ **10,75 plantões**.
+*   **Jornada Mensal Alvo**: 30h × 4.3 semanas = **129h00min**.
+*   **Duração Efetiva do Plantão**: **12h00min**.
+*   **Plantões Ideais/Mês**: **10,75 plantões**.
 
-Como o resultado não é inteiro (10,75 plantões), escalar fixamente 10 ou 11 plantões acumularia um desvio no banco de horas.
+Como não é possível realizar 10,75 plantões reais em um único mês, o algoritmo de auxílio sugere uma alternância simples (ex: 11 plantões em alguns meses e 10 em outros) para que ao final do semestre a diferença de horas acumulada seja mínima.
 
-### O Algoritmo de Compensação (Malha Fechada / Realimentação)
-Para resolver esse problema de forma dinâmica e automatizada, o sistema implementa um algoritmo de controle em **malha fechada** (similar a um modulador Sigma-Delta). A cada mês, o sistema avalia o saldo acumulado ($Saldo_{acumulado}$) e simula as duas opções (piso de plantões ou teto) escolhendo a que deixa o banco de horas acumulado o mais próximo possível de zero.
-
-#### Cronograma Semestral Simulado (Julho a Dezembro de 2026):
-*   **Simulação 1 (Reduzida - 20%):**
-    *   Julho: 11 plantões (Saldo Acumulado: `+02:24`)
-    *   Agosto: 10 plantões (Saldo Acumulado: `-04:48`)
-    *   Setembro: 11 plantões (Saldo Acumulado: `-02:24`)
-    *   Outubro: 11 plantões (Saldo Acumulado: `00:00` - Banco Zerado)
-    *   Novembro: 11 plantões (Saldo Acumulado: `+02:24`)
-    *   Dezembro: 10 plantões (Saldo Acumulado: `-04:48` - Fim do semestre)
-*   **Simulação 2 (Padrão - Sem Redução):**
-    *   Julho: 11 plantões (Saldo Acumulado: `+03:00`)
-    *   Agosto: 11 plantões (Saldo Acumulado: `+06:00`)
-    *   Setembro: 10 plantões (Saldo Acumulado: `-03:00`)
-    *   Outubro: 11 plantões (Saldo Acumulado: `00:00` - Banco Zerado)
-    *   Novembro: 11 plantões (Saldo Acumulado: `+03:00`)
-    *   Dezembro: 11 plantões (Saldo Acumulado: `+06:00` - Fim do semestre)
+#### Proposta de Cronograma Semestral Sugerido (Julho a Dezembro de 2026):
+*   **Cenário Reduzido (20%):**
+    *   Julho: 11 plantões (Saldo: `+02:24`)
+    *   Agosto: 10 plantões (Saldo: `-04:48`)
+    *   Setembro: 11 plantões (Saldo: `-02:24`)
+    *   Outubro: 11 plantões (Saldo: `00:00` - Compensado)
+    *   Novembro: 11 plantões (Saldo: `+02:24`)
+    *   Dezembro: 10 plantões (Saldo: `-04:48`)
+*   **Cenário Padrão (Sem Redução):**
+    *   Julho: 11 plantões (Saldo: `+03:00`)
+    *   Agosto: 11 plantões (Saldo: `+06:00`)
+    *   Setembro: 10 plantões (Saldo: `-03:00`)
+    *   Outubro: 11 plantões (Saldo: `00:00` - Compensado)
+    *   Novembro: 11 plantões (Saldo: `+03:00`)
+    *   Dezembro: 11 plantões (Saldo: `+06:00`)
 
 ---
 
-## 🏥 Calculadoras de Saúde Pública Integradas (Web)
+## 🏥 Simuladores de Apoio Integrados (Web)
 
-O painel web fornece three calculadoras interativas específicas:
-1.  **Cálculo de Escalas (Padrão e Reduzida)**: Permite ao setor escolher a carga semanal do funcionário, o plantão base e se ele possui redução de jornada (ex: 20% TEA), gerando o cronograma mensal alternado com autocompensação.
-2.  **Dimensionamento de Enfermagem (COFEN 743/2024)**: Aplica o Parecer Normativo nº 1/2024/COFEN para calcular o total de profissionais mínimos necessários no leito, dividindo proporcionalmente entre enfermeiros e técnicos de acordo com as complexidades (Mínimo, Intermediário, Alta Dependência, Semi-intensivo, Intensivo).
-3.  **Validador de Limites de Plantão SES-SP (LC 1176/2012)**: Verifica se o servidor de saúde (médicos e dentistas) está ultrapassando o limite legal de plantões extras mensais com base no seu número de vínculos e respectivas cargas horárias no Estado.
+O painel web foi estruturado como uma central de facilidades para consulta rápida:
+1.  **Apoio na Elaboração de Escalas**: Ajuda o setor a simular escalas de colaboradores com ou sem jornada reduzida, sugerindo a alternância mensal recomendada para o banco de horas.
+2.  **Referência de Dimensionamento (Enfermagem)**: Utiliza como base os parâmetros gerais das resoluções do COFEN para oferecer uma estimativa indicativa do quadro de pessoal por tipo de cuidado.
+3.  **Orientador de Limites de Plantão (SES-SP)**: Guia informativo de apoio para auxiliar o servidor no acompanhamento e autogestão de seus plantões de forma a manter uma rotina saudável e em linha com as diretrizes da saúde estadual.
 
 ---
 
-## 🛠️ Como Executar o Módulo Java
+## 🛠️ Como Executar o Módulo Java (Simulador local)
 
-Caso possua o **Maven** instalado, basta executar a partir da raiz do projeto:
+Caso possua o **Maven** instalado, execute na raiz do projeto:
 ```bash
 mvn clean compile exec:java
 ```
 
-Caso não possua o Maven, compile e execute manualmente usando o próprio Java do sistema:
+Ou execute manualmente compilando pelo próprio Java do sistema:
 ```bash
 # Compilar
 mkdir -p target/classes
@@ -82,6 +79,7 @@ java -cp target/classes com.hospital.main.Main
 
 ---
 
-## 🌐 Como Usar o Painel Web Diretamente no GitHub
-1.  Habilite o **GitHub Pages** nas configurações do seu repositório apontando para a branch `main` e diretório raiz `/`.
-2.  Acesse `https://<seu-usuario>.github.io/Calculadora/` para utilizar as calculadoras dinamicamente do seu navegador ou celular.
+## 🌐 Como Disponibilizar o Painel Web no GitHub
+1.  Habilite o **GitHub Pages** nas configurações do repositório (`Settings` > `Pages`).
+2.  Aponte a origem para a branch `main` e diretório raiz `/`.
+3.  Utilize o link gerado para que a equipe possa realizar simulações e consultas diretamente do celular ou computador.
